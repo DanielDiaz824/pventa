@@ -10,9 +10,13 @@ export class AuthService {
     return (await this.afAuth.currentUser)?.sendEmailVerification();
   }
 
-  async login(email:string,password:string){
+  async login(email:string,password:string):Promise<any>{
     try{
-      const result = await this.afAuth.signInWithEmailAndPassword(
+      /*const result = await this.afAuth.signInWithEmailAndPassword(
+        email,
+        password
+      );*/
+      return await this.afAuth.signInWithEmailAndPassword(
         email,
         password
       );

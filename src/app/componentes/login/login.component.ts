@@ -10,6 +10,8 @@ import { AuthService } from 'src/app/auth/services/auth.service';
   styleUrls: ['./login.component.css'],
   providers:[AuthService]
 })
+
+
 export class LoginComponent implements OnInit {
   loginForm = new FormGroup({
     email: new FormControl(''),
@@ -22,15 +24,20 @@ export class LoginComponent implements OnInit {
   }
 
    async onLogin(){
-     
+   
     const {email,password} = this.loginForm.value;
      try{
       const user = await this.authSvc.login(email,password);
       
-      if(user!==null){
-        //console.log('USER->',user);
+      if(user && user.user.emailVerified){
+        console.log(user);
+        console.log('Usuario verificado:'+ user.user.emailVerified);
         this.router.navigate(['/home']);
         //reloadxd
+      }else{
+        console.log(user);
+        console.log('Usuario verificado:'+ user.user.emailVerified);
+        console.log('No estas verificado');
       }
      }
      catch(error){
