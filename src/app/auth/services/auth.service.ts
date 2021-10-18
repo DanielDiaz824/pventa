@@ -6,13 +6,23 @@ import { first } from 'rxjs/operators';
 export class AuthService {
   constructor(public afAuth: AngularFireAuth) { }
 
+  async resetPassword(email:string):Promise<any>{
+    try{
+      return this.afAuth.sendPasswordResetEmail(email);
+    } catch(error){
+      console.log(error);
+      
+    }
+  }
+
+
   async sendVerificationEmail():Promise<void>{
     return (await this.afAuth.currentUser)?.sendEmailVerification();
   }
 
-  async login(email:string,password:string){
+  async login(email:string,password:string):Promise<any>{
     try{
-      const result = await this.afAuth.signInWithEmailAndPassword(
+      return await this.afAuth.signInWithEmailAndPassword(
         email,
         password
       );

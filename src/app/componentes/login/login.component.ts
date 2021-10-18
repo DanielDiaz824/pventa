@@ -26,11 +26,13 @@ export class LoginComponent implements OnInit {
     const {email,password} = this.loginForm.value;
      try{
       const user = await this.authSvc.login(email,password);
-      
-      if(user!==null){
-        //console.log('USER->',user);
+
+      if (user && user.user.emailVerified){
         this.router.navigate(['/home']);
-        //reloadxd
+      } else if (user){
+        this.router.navigate(['/verification-email']);
+      } else{
+        this.router.navigate(['/createaccount']);
       }
      }
      catch(error){
