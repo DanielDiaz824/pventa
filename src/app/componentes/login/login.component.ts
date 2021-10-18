@@ -3,6 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit {
     password: new FormControl('')
   });
   
-  constructor(private authSvc:AuthService,private router:Router) { }
+  constructor(private authSvc:AuthService,private router:Router,private toastr:ToastrService) { }
 
   ngOnInit(): void {
   }
