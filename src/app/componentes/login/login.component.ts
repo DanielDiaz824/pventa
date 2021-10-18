@@ -35,10 +35,13 @@ export class LoginComponent implements OnInit {
         console.log('Usuario verificado:'+ user.user.emailVerified);
         this.router.navigate(['/home']);
         //reloadxd
-      }else{
+      }else if (user){
+        this.router.navigate(['/verification-email']);
         console.log(user);
         console.log('Usuario verificado:'+ user.user.emailVerified);
         console.log('No estas verificado');
+      }else{
+        this.router.navigate(['/createaccount']);
       }
      }
      catch(error){
