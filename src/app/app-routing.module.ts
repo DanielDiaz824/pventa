@@ -9,6 +9,7 @@ import { ControliComponent } from './componentes/controli/controli.component';
 import { CotizacionesComponent } from './componentes/cotizaciones/cotizaciones.component';
 import { CrearProductosComponent } from './componentes/crear-productos/crear-productos.component';
 import { SendEmailComponent } from './auth/send-email/send-email.component';
+import { OlvidoContraComponent } from './auth/olvido-contra/olvido-contra.component';
 
 
 const routes: Routes = [
@@ -23,8 +24,8 @@ const routes: Routes = [
   {path:'crearproducto',component:CrearProductosComponent},
   {path:'editproducto/:id',component:CrearProductosComponent},
   {path:'verification-email',component:SendEmailComponent},
-  {path:'forgot-password', loadChildren: () => import('./auth/forgot-password/forgot-password.module').then(m => m.ForgotPasswordModule) },
-
+  //{path:'forgot-password', loadChildren: () => import('./auth/forgot-password/forgot-password.module').then(m => m.ForgotPasswordModule) },
+  {path:'olvido-contrasena',component:OlvidoContraComponent},
   {path:'**',redirectTo:'home', pathMatch:'full'},
 ];
 

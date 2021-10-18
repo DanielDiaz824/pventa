@@ -24,6 +24,7 @@ import { CrearProductosComponent } from './componentes/crear-productos/crear-pro
 import { environment } from 'src/environments/environment';
 import { RegisterComponent } from './components/register/register.component';
 import { SendEmailComponent } from './auth/send-email/send-email.component';
+import { OlvidoContraComponent } from './auth/olvido-contra/olvido-contra.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { SendEmailComponent } from './auth/send-email/send-email.component';
     CotizacionesComponent,
     CrearProductosComponent,
     RegisterComponent,
-    SendEmailComponent
+    SendEmailComponent,
+    OlvidoContraComponent
   ],
   imports: [
     BrowserModule,
