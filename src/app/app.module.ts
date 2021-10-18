@@ -25,6 +25,7 @@ import { environment } from 'src/environments/environment';
 import { RegisterComponent } from './components/register/register.component';
 import { SendEmailComponent } from './auth/send-email/send-email.component';
 
+import {AuthService} from './auth/services/auth.service';
 
 @NgModule({
   declarations: [
@@ -48,9 +49,9 @@ import { SendEmailComponent } from './auth/send-email/send-email.component';
     ReactiveFormsModule,
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

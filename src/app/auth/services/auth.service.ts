@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { first } from 'rxjs/operators';
-
 @Injectable()
 export class AuthService {
   constructor(public afAuth: AngularFireAuth) { }
