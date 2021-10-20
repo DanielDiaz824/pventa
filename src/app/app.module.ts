@@ -53,7 +53,7 @@ import {AuthService} from './auth/services/auth.service';
     BrowserAnimationsModule,
     AngularFireAuthModule,
   ],
-  providers: [AuthService],
+  providers: [AuthService, InicioComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

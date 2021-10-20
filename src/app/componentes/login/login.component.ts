@@ -4,6 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { Observable, of } from 'rxjs';
+import { InicioComponent } from '../inicio/inicio.component';
 
 @Component({
   selector: 'app-login',
@@ -19,13 +21,15 @@ export class LoginComponent implements OnInit {
     password: new FormControl('')
   });
   
-  constructor(private authSvc:AuthService,private router:Router,private toastr:ToastrService) { }
+  public user$:Observable<any> = this.authSvc.afAuth.user;
+  public userpermissioncontrolinventario='none';
+  constructor(private authSvc:AuthService,private router:Router,private toastr:ToastrService, private inicioUser: InicioComponent) { }
 
   ngOnInit(): void {
   }
 
    async onLogin(){
-   
+    this.userpermissioncontrolinventario='inline-block';
     const {email,password} = this.loginForm.value;
      try{
       const user = await this.authSvc.login(email,password);
@@ -33,19 +37,30 @@ export class LoginComponent implements OnInit {
       if(user && user.user.emailVerified){
         console.log(user);
         console.log('Usuario verificado:'+ user.user.emailVerified);
+        this.inicioUser.verificarAuth();
         this.router.navigate(['/home']);
         //reloadxd
       }else if (user){
         this.router.navigate(['/verification-email']);
         console.log(user);
+        this.inicioUser.verificarAuth();
         console.log('Usuario verificado:'+ user.user.emailVerified);
         console.log('No estas verificado');
       }else{
-        this.router.navigate(['/createaccount']);
+        //this.router.navigate(['/createaccount']);
       }
      }
      catch(error){
       console.log(error)
      }
+    }
+    async onLogout(){
+      try{
+        await this.authSvc.logout();
+        this.router.navigate(['/login']);
+      } catch(error){
+        console.log(error);
+      }
+      this.authSvc.logout();
     }
 }

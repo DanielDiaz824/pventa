@@ -8,7 +8,6 @@ import { AuthService } from './auth/services/auth.service';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  
   constructor(private authSvc: AuthService, private router: Router){}
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -19,15 +18,15 @@ export class AuthGuard implements CanActivate {
       map(user=>{
         if(!user){
           alert('USTED NO ESTÁ LOGUEADO! >:C')
-          this.router.navigate(['/login']);
+          this.router.navigate(['/home']);
           return false;
         }
         alert('Bienvenido Usuario Promedio, te quiero mucho <3')
         const userInf: any = user;
         console.log(userInf.uid);
-        if(userInf.uid!='s3OyXPySHPZqSQzTsMTehDdju4I3'){
+        if(userInf.uid!=='a0kDjOVej7TvdvuHKP7y6sUFyQG3'){
           alert('espera... TU NO ERES EL ADMIN!!, SAQUESE ALV >:C')
-          this.router.navigate(['/login']);
+          this.router.navigate(['/home']);
           return false;
         }
         return true;
