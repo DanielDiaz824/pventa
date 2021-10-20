@@ -27,7 +27,7 @@ export class AuthGuard implements CanActivate {
         console.log(userInf.uid);
         if(userInf.uid!='s3OyXPySHPZqSQzTsMTehDdju4I3'){
           alert('espera... TU NO ERES EL ADMIN!!, SAQUESE ALV >:C')
-          this.router.navigate(['/login']);
+          this.router.navigate(['/home']);
           return false;
         }
         return true;

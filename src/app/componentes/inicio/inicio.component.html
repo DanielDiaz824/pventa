@@ -11,13 +11,19 @@
           </li>
 
           <li class="nav-item" *ngIf="user">
-            <a class="nav-link"routerLinkActive="active" (click)="onLogout()">Cerrar Sesion</a>
+            <a class="nav-link"routerLinkActive="active" (click)="onLogout()">Cerrar sesión</a>
           </li>
           <li class="nav-item" *ngIf="!user">
             <a class="nav-link"routerLinkActive="active" routerLink="/createaccount">Crear cuenta</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" routerLinkActive="active" routerLink="/car">Carrito</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active" routerLink="/controlinventario">Control de inventario</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active" routerLink="/cotizaciones">Cotizaciónes</a>
           </li>
           <li class="nav-item">
             <a class="nav-link">{{ user?.email }}</a>
