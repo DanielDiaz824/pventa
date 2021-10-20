@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, CanActivate } from '@angular/router';
 import { CarComponent } from './componentes/car/car.component';
 import { CreateaccountComponent } from './componentes/createaccount/createaccount.component';
 import { HomeComponent } from './componentes/home/home.component';
@@ -11,19 +11,24 @@ import { CrearProductosComponent } from './componentes/crear-productos/crear-pro
 import { SendEmailComponent } from './auth/send-email/send-email.component';
 import { AuthGuard } from './auth.guard';
 import { OlvidoContraComponent } from './auth/olvido-contra/olvido-contra.component';
+import { CotizacionesGuard } from './guards/cotizaciones.guard';
+import { CrearproductoGuard } from './guards/crearproducto.guard';
+import { EditproductoGuard } from './guards/editproducto.guard';
+import { CarGuard } from './guards/car.guard';
+import { CreateaccountGuard } from './guards/createaccount.guard';
 
 
 const routes: Routes = [
   {path:'',redirectTo:'home', pathMatch:'full'},
-  {path:'car',component:CarComponent},
-  {path:'createaccount',component:CreateaccountComponent},
+  {path:'car',component:CarComponent, canActivate:[CarGuard]},
+  {path:'createaccount',component:CreateaccountComponent, canActivate:[CreateaccountGuard]},
   {path:'home',component:HomeComponent},
   {path:'inicio',component:InicioComponent},
   {path:'login',component:LoginComponent},
   {path:'controlinventario',component:ControliComponent, canActivate:[AuthGuard]},
-  {path:'cotizaciones',component:CotizacionesComponent},
-  {path:'crearproducto',component:CrearProductosComponent},
-  {path:'editproducto/:id',component:CrearProductosComponent},
+  {path:'cotizaciones',component:CotizacionesComponent, canActivate:[CotizacionesGuard]},
+  {path:'crearproducto',component:CrearProductosComponent, canActivate:[CrearproductoGuard]},
+  {path:'editproducto/:id',component:CrearProductosComponent, canActivate:[EditproductoGuard]},
   {path:'verification-email',component:SendEmailComponent},
   //{path:'forgot-password', loadChildren: () => import('./auth/forgot-password/forgot-password.module').then(m => m.ForgotPasswordModule) },
   {path:'olvido-contrasena',component:OlvidoContraComponent},

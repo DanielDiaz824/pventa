@@ -55,7 +55,7 @@ import {AuthService} from './auth/services/auth.service';
     AngularFireAuthModule,
     AngularFireStorageModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, InicioComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
