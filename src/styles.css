@@ -12,3 +12,8 @@ a{
     cursor: pointer;
 }
 
+/*body{
+    background: #4AA7ED;
+    background:-webkit-linear-gradient(to bottom, #FFD200 ,#4AA7ED );
+    background: linear-gradient(to bottom, #FFD200,#4AA7ED );
+}*/
