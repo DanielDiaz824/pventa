@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 
 //COMPONENTES
 import { AppComponent } from './app.component';
@@ -52,6 +53,7 @@ import {AuthService} from './auth/services/auth.service';
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
     AngularFireAuthModule,
+    AngularFireStorageModule
   ],
   providers: [AuthService, InicioComponent],
   bootstrap: [AppComponent]

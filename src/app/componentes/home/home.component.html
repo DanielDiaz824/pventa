@@ -1,1 +1,35 @@
-<h1>QUE PEDOOOO, AQUI VAN LOS PRODUCTOS</h1>
+<div class="container mt-2">
+    <div class="card">
+        <div class="card-body" *ngIf="producto.length>0">
+            <h1 class="text-center">Productos</h1>
+            <div class="card-body" *ngFor="let productos of producto">
+                <h1>{{productos.nombre}}</h1>
+                <label>{{productos.descripcion}}</label> <label>{{productos.preciounitario | currency}}</label>
+                <button class="btn btn-primary">Añadir a carrito</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <footer class="row row-cols-5 py-5 my-5 border-top">
+        <div class="col">
+            <h5>Acerca de</h5>
+            <ul class="nav flex-column">
+              <li class="nav-item mb-2"><label  class="nav-link p-0 text-muted">Encuentranos en ...</label></li>
+              <li class="nav-item mb-2"><label  class="nav-link p-0 text-muted">Telefono ...</label></li>
+              <li class="nav-item mb-2"><label  class="nav-link p-0 text-muted">Correo ...</label></li>
+            </ul>
+          </div>
+
+        <div class="col">
+          <a href="/" class="d-flex align-items-center mb-3 link-dark text-decoration-none">
+            <svg></svg>
+          </a>
+          <p class="text-muted">© 2021</p>
+        </div>
+    
+        <div class="col">
+    
+        </div>
+      </footer>
+</div>
