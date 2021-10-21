@@ -14,7 +14,8 @@ export class CrearProductosComponent implements OnInit {
   submitted = false;
   loading = false;
   id:string| null;
-  titulo='Agregar Producto';
+  //titulo='Agregar Producto';
+  titulo='';
   constructor(private fb:FormBuilder,
               private _productoService:ControlService,
               private router:Router,
@@ -32,7 +33,12 @@ export class CrearProductosComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.esEditar();
+    console.log(this.router.url);
+    if(this.router.url=='/crearproducto'){
+      this.titulo='Agregar Producto'
+    }else{
+      this.esEditar();
+    }
   }
 
 
