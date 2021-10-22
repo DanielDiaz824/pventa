@@ -22,7 +22,7 @@ export class CarGuard implements CanActivate {
           alert('Bienvenido Usuario Promedio, te quiero mucho <3')
           const userInf: any = user;
           console.log(userInf.uid);
-          if(userInf.uid=='a0kDjOVej7TvdvuHKP7y6sUFyQG3'){
+          if(userInf.uid=='s3OyXPySHPZqSQzTsMTehDdju4I3'){
             alert('espera...que demonios hace aqui, fred?!!!')
             this.router.navigate(['/home']);
             return false;

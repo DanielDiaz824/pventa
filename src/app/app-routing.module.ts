@@ -16,6 +16,8 @@ import { CrearproductoGuard } from './guards/crearproducto.guard';
 import { EditproductoGuard } from './guards/editproducto.guard';
 import { CarGuard } from './guards/car.guard';
 import { CreateaccountGuard } from './guards/createaccount.guard';
+import { ListadoclientesComponent } from './componentes/listadoclientes/listadoclientes.component';
+import { CrearclienteComponent } from './componentes/crearcliente/crearcliente.component';
 
 
 const routes: Routes = [
@@ -32,6 +34,11 @@ const routes: Routes = [
   {path:'verification-email',component:SendEmailComponent},
   //{path:'forgot-password', loadChildren: () => import('./auth/forgot-password/forgot-password.module').then(m => m.ForgotPasswordModule) },
   {path:'olvido-contrasena',component:OlvidoContraComponent},
+  {path:'listadoclientes',component:ListadoclientesComponent},
+  {path:'crearcliente',component:CrearclienteComponent},
+  {path:'editcliente/:id',component:CrearclienteComponent},
+
+
   {path:'**',redirectTo:'home', pathMatch:'full'},
 ];
 

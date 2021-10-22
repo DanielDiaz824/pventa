@@ -28,6 +28,8 @@ import { SendEmailComponent } from './auth/send-email/send-email.component';
 import { OlvidoContraComponent } from './auth/olvido-contra/olvido-contra.component';
 
 import {AuthService} from './auth/services/auth.service';
+import { ListadoclientesComponent } from './componentes/listadoclientes/listadoclientes.component';
+import { CrearclienteComponent } from './componentes/crearcliente/crearcliente.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import {AuthService} from './auth/services/auth.service';
     CrearProductosComponent,
     RegisterComponent,
     SendEmailComponent,
-    OlvidoContraComponent
+    OlvidoContraComponent,
+    ListadoclientesComponent,
+    CrearclienteComponent
   ],
   imports: [
     BrowserModule,
