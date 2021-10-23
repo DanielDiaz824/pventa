@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class CrearproductoGuard implements CanActivate {
+export class CrearclienteGuard implements CanActivate {
   constructor(private authSvc:AuthService, private router: Router){}
   canActivate(
     route: ActivatedRouteSnapshot,

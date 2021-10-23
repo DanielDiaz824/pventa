@@ -3,34 +3,34 @@
         <div class="card-body">
             <span class="h3">Listado de clientes</span>
             <div class="d-grid  d-md-flex justify-content-md-end">
-                <button class="btn btn-primary btn-lg me-md-2" routerLink="/crearcliente">Nuevo cliente</button>
+                <button class="btn btn-primary btn-lg me-md-2" style="background-color: #4AA7ED !important; border:#4AA7ED;" routerLink="/crearcliente">Nuevo cliente</button>
                 <button class="btn btn-dark btn-lg me-md-2" routerLink="/cotizaciones">Volver</button>
-              </div>
-              <h5 *ngIf="clientes.length==0">No hay datos para mostrar</h5>
+            </div>
+            <h5 *ngIf="clientes.length==0">No hay datos para mostrar</h5>
             <table *ngIf="clientes.length>0" class="table table-striped mt-5">
                 <thead>
-                  <tr>
-                    <th>Nombres</th>
-                    <th>Apellidos</th>
-                    <th>Sexo</th>
-                    <th>Teléfono</th>
-                    <th>Domicilio</th>
-                    <th></th>
-                  </tr>
+                    <tr>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Sexo</th>
+                        <th>Teléfono</th>
+                        <th>Domicilio</th>
+                        <th></th>
+                    </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let cliente of clientes">
-                    <td>{{cliente.nombres}}</td>
-                    <td>{{cliente.apellidos}}</td>
-                    <td>{{cliente.sexo}}</td>
-                    <td>{{cliente.telefono}}</td>
-                    <td>{{cliente.domicilio}}</td>
-                    <td>
-                        <i class="fas fa-edit fa-lg text-info"style="margin-right:4px;" [routerLink]="['/editcliente',cliente.id]"></i>
-                        <i (click)="eliminarCliente(cliente.id)" class="fas fa-trash fa-lg text-danger"></i>
-                    </td>
-                  </tr>
+                    <tr *ngFor="let cliente of clientes">
+                        <td>{{cliente.nombres}}</td>
+                        <td>{{cliente.apellidos}}</td>
+                        <td>{{cliente.sexo}}</td>
+                        <td>{{cliente.telefono}}</td>
+                        <td>{{cliente.domicilio}}</td>
+                        <td>
+                            <i class="fas fa-edit fa-lg text-info" style="margin-right:4px;" [routerLink]="['/editcliente',cliente.id]"></i>
+                            <i (click)="eliminarCliente(cliente.id)" class="fas fa-trash fa-lg text-danger"></i>
+                        </td>
+                    </tr>
                 </tbody>
-              </table>
+            </table>
         </div>
     </div>
