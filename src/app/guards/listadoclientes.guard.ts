@@ -19,7 +19,7 @@ export class ListadoclientesGuard implements CanActivate {
             this.router.navigate(['/home']);
             return false;
           }
-          alert('Bienvenido Usuario Promedio, te quiero mucho <3')
+          //alert('Bienvenido Usuario Promedio, te quiero mucho <3 ---')
           const userInf: any = user;
           console.log(userInf.uid);
           if(userInf.uid!=='a0kDjOVej7TvdvuHKP7y6sUFyQG3'){
@@ -27,6 +27,7 @@ export class ListadoclientesGuard implements CanActivate {
             this.router.navigate(['/home']);
             return false;
           }
+          console.log(user.uid);
           return true;
         })
       );

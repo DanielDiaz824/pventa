@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cotizaciones',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CotizacionesComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+  }
+  goListadoClientes(){
+    this.router.navigate(['/listadoclientes']).then(()=>{
+      location.reload();
+    })
   }
 
 }

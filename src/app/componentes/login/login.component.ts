@@ -22,14 +22,12 @@ export class LoginComponent implements OnInit {
   });
   
   public user$:Observable<any> = this.authSvc.afAuth.user;
-  public userpermissioncontrolinventario='none';
   constructor(private authSvc:AuthService,private router:Router,private toastr:ToastrService, private inicioUser: InicioComponent) { }
 
   ngOnInit(): void {
   }
 
    async onLogin(){
-    this.userpermissioncontrolinventario='inline-block';
     const {email,password} = this.loginForm.value;
      try{
       const user = await this.authSvc.login(email,password);

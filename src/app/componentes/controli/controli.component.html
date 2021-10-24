@@ -3,34 +3,34 @@
         <div class="card-body">
             <span class="h3">Control de inventario</span>
             <div class="d-grid  d-md-flex justify-content-md-end">
-                <button class="btn btn-dark btn-lg me-md-2" routerLink="/crearproducto">Nuevo producto</button>
-              </div>
-              <h5 *ngIf="producto.length==0">No hay datos para mostrar</h5>
+                <button class="btn btn-dark btn-lg me-md-2" routerLink="/crearproducto" style="background-color: #4AA7ED !important; border:#4AA7ED;">Nuevo producto</button>
+            </div>
+            <h5 *ngIf="producto.length==0">No hay datos para mostrar</h5>
             <table *ngIf="producto.length>0" class="table table-striped mt-5">
                 <thead>
-                  <tr>
-                    <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>Precio Unitario</th>
-                    <th>Precio Proveedor</th>
-                    <th>Existentes</th>
-                    <th></th>
-                  </tr>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Precio Unitario</th>
+                        <th>Precio Proveedor</th>
+                        <th>Existentes</th>
+                        <th></th>
+                    </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let productos of producto">
-                    <td>{{productos.nombre}}</td>
-                    <td>{{productos.descripcion}}</td>
-                    <td>{{productos.preciounitario | currency}}</td>
-                    <td>{{productos.precioproveedor | currency}}</td>
-                    <td>{{productos.existentes}}</td>
-                    <td>
-                        <i class="fas fa-edit fa-lg text-info"style="margin-right:4px;" [routerLink]="['/editproducto/',productos.id]"></i>
-                        <i (click)="eliminarProducto(productos.id)"  class="fas fa-trash fa-lg text-danger"></i>
-                    </td>
-                  </tr>
+                    <tr *ngFor="let productos of producto">
+                        <td>{{productos.nombre}}</td>
+                        <td>{{productos.descripcion}}</td>
+                        <td>{{productos.preciounitario | currency}}</td>
+                        <td>{{productos.precioproveedor | currency}}</td>
+                        <td>{{productos.existentes}}</td>
+                        <td>
+                            <i class="fas fa-edit fa-lg text-info" style="margin-right:4px;" [routerLink]="['/editproducto/',productos.id]"></i>
+                            <i (click)="eliminarProducto(productos.id)" class="fas fa-trash fa-lg text-danger"></i>
+                        </td>
+                    </tr>
                 </tbody>
-              </table>
+            </table>
         </div>
     </div>
 </div>

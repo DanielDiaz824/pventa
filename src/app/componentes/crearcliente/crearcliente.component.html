@@ -6,31 +6,31 @@
                     <h3>{{titulo}}
                         <div *ngIf="loading" class="spinner-border text-warning float-right" role="status">
                             <span class="visually-hidden">Loading...</span>
-                          </div>
+                        </div>
                     </h3>
-                    <span *ngIf="submitted && createcliente.invalid" style="color: red;" >TODOS LOS CAMPOS SON OBLIGATORIOS</span>
+                    <span *ngIf="submitted && createcliente.invalid" style="color: red;">TODOS LOS CAMPOS SON OBLIGATORIOS</span>
                     <form class="mt-4" [formGroup]="createcliente" (ngSubmit)="agregarEditarCliente()">
                         <div class="row">
                             <div class="col">
                                 <label for="nombres" style="margin-right: 500px;">Nombres</label>
-                                <input type="text" class="form-control form-control-lg mt-1" formControlName="nombres" placeholder="Nombres"> 
+                                <input type="text" class="form-control form-control-lg mt-1" formControlName="nombres" placeholder="Nombres">
                             </div>
                             <div class="col">
-                                <label for="apellidos" style="margin-right: 500px;margin-top: 10px;" >Apellidos</label>
-                                <input type="text" class="form-control form-control-lg mt-1" formControlName="apellidos" placeholder="Apellidos"> 
+                                <label for="apellidos" style="margin-right: 500px;margin-top: 10px;">Apellidos</label>
+                                <input type="text" class="form-control form-control-lg mt-1" formControlName="apellidos" placeholder="Apellidos">
                             </div>
                         </div>
-                        <label for="sexo" style="margin-right: 500px;margin-top: 20px;" >Sexo</label>
+                        <label for="sexo" style="margin-right: 500px;margin-top: 20px;">Sexo</label>
                         <input type="text" class="form-control form-control-lg mt-1" formControlName="sexo" placeholder="Sexo">
 
-                        <label for="telefono" style="margin-right: 500px;margin-top: 20px;" >Teléfono</label>
+                        <label for="telefono" style="margin-right: 500px;margin-top: 20px;">Teléfono</label>
                         <input type="number" class="form-control form-control-lg mt-1" formControlName="telefono" placeholder="Teléfono">
 
-                        <label for="domicilio" style="margin-right: 500px;margin-top: 20px;" >Domicilio</label>
+                        <label for="domicilio" style="margin-right: 500px;margin-top: 20px;">Domicilio</label>
                         <input type="text" class="form-control form-control-lg mt-1" formControlName="domicilio" placeholder="Domicilio">
                         <div class="mt-3">
                             <button type="text" class="btn btn-secondary btn-lg" style="margin-right: 10px;" routerLink="/listadoclientes">Volver</button>
-                            <button type="submit" class="btn btn-dark btn-lg">Agregar</button>
+                            <button type="submit" class="btn btn-dark btn-lg" style="background-color: #4AA7ED !important; border:#4AA7ED;">Agregar</button>
                         </div>
                     </form>
                 </div>
