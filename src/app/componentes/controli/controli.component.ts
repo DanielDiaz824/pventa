@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
 import { ControlService } from '../../services/control.service';
 import { ToastrService } from 'ngx-toastr';
+import { FirestorageService } from '../../services/firestorage.service';
 
 @Component({
   selector: 'app-controli',
@@ -13,7 +14,8 @@ export class ControliComponent implements OnInit {
   producto:any[ ] = [ ]
 
   constructor(private _productoService:ControlService,
-              private toastr:ToastrService) { 
+              private toastr:ToastrService,
+              private firestorageService: FirestorageService) { 
 
   }
 
@@ -36,9 +38,10 @@ export class ControliComponent implements OnInit {
   }
 
 
-  eliminarProducto(id: string){
-    this._productoService.eliminarProducto(id).then(()=>{
+  eliminarProducto(producto: any){
+    this._productoService.eliminarProducto(producto.id).then(()=>{
       console.log('producto eliminado con exito');
+      this.firestorageService.deleteImage(producto.foto);
       this.toastr.error('Se elimino el producto correctamente','Producto eliminado!',{
         positionClass:'toast-bottom-right'
       });

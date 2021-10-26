@@ -11,30 +11,29 @@
     </div>
 
     <div>
-        <div class="card-body" *ngIf="producto.length>0">
-            <h1 class="text-center">Productos</h1>
-            <div class="card-body col-6" *ngFor="let productos of producto" style="display: inline-flex;">
+        <h1 class="text-center">Productos</h1>
+        <div class="card-body row row-cols-2" *ngIf="producto.length>0" style="    display: flex;">
+            <div class="card-body " *ngFor="let productos of producto ">
                 <h1>{{productos.nombre}}</h1>
                 <label>{{productos.descripcion}}</label> <label>{{productos.preciounitario | currency}}</label>
-                <button class="btn btn-success">Añadir a carrito</button>
+                <img src="{{productos.foto}} " alt=" " style="max-width: 40%; display: block; ">
+                <button class="btn btn-success ">Añadir a carrito<i class="fas fa-cart-plus"></i></button>
             </div>
         </div>
     </div>
-    <div class="footer" style="background-color: #4AA7ED;">
-        <footer class="row row-cols-5 py-5 my-5 border-top">
-            <div class="col" style="display: inline-block;
-            margin: auto;">
+    <div class="footer " style="background-color: #4AA7ED; ">
+        <footer class="row row-cols-5 py-5 my-5 border-top ">
+            <div class="col " style="display: inline-block; margin: auto; ">
                 <h1>Acerca de</h1>
-                <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><label>Encuentranos en Durango, Dgo.</label></li>
-                    <li class="nav-item mb-2"><label>Telefono 618</label></li>
-                    <li class="nav-item mb-2"><label>Correo sect@</label></li>
+                <ul class="nav flex-column ">
+                    <li class="nav-item mb-2 "><label>Encuentranos en Durango, Dgo.</label></li>
+                    <li class="nav-item mb-2 "><label>Telefono 618</label></li>
+                    <li class="nav-item mb-2 "><label>Correo sect@</label></li>
                 </ul>
             </div>
 
-            <div class="col" style="display: inline-block;
-            margin: auto;">
-                <img src="./assets/img/vectornosek.svg" style="width: 100%;" alt="Logo">
+            <div class="col " style="display: inline-block; margin: auto; ">
+                <img src="./assets/img/vectornosek.svg " style="width: 100%; " alt="Logo ">
                 <p>© 2021</p>
             </div>
         </footer>
