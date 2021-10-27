@@ -12,12 +12,13 @@
 
     <div>
         <h1 class="text-center">Productos</h1>
-        <div class="card-body row row-cols-2" *ngIf="producto.length>0" style="    display: flex;">
-            <div class="card-body " *ngFor="let productos of producto ">
+        <div class="card-body row row-cols-2" *ngIf="producto.length>0" style="display: flex;">
+            <div class="card-body" *ngFor="let productos of producto " style="border-style: solid;">
                 <h1>{{productos.nombre}}</h1>
-                <label>{{productos.descripcion}}</label> <label>{{productos.preciounitario | currency}}</label>
                 <img src="{{productos.foto}} " alt=" " style="max-width: 40%; display: block; ">
-                <button class="btn btn-success ">Añadir a carrito<i class="fas fa-cart-plus"></i></button>
+                <label>{{productos.descripcion}}</label>
+                <label>{{productos.preciounitario | currency}}</label>
+                <button class="btn" style="color: white;background-color: #4AA7ED;"><i class="fas fa-cart-plus"></i></button>
             </div>
         </div>
     </div>

@@ -26,10 +26,12 @@ import { environment } from 'src/environments/environment';
 import { RegisterComponent } from './components/register/register.component';
 import { SendEmailComponent } from './auth/send-email/send-email.component';
 import { OlvidoContraComponent } from './auth/olvido-contra/olvido-contra.component';
-
-import {AuthService} from './auth/services/auth.service';
 import { ListadoclientesComponent } from './componentes/listadoclientes/listadoclientes.component';
 import { CrearclienteComponent } from './componentes/crearcliente/crearcliente.component';
+import { CrearCotizacionComponent } from './componentes/crear-cotizacion/crear-cotizacion.component';
+
+import {AuthService} from './auth/services/auth.service';
+
 
 @NgModule({
   declarations: [
@@ -46,7 +48,8 @@ import { CrearclienteComponent } from './componentes/crearcliente/crearcliente.c
     SendEmailComponent,
     OlvidoContraComponent,
     ListadoclientesComponent,
-    CrearclienteComponent
+    CrearclienteComponent,
+    CrearCotizacionComponent
   ],
   imports: [
     BrowserModule,
