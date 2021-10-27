@@ -7,46 +7,63 @@
 
                     <div class="accordion" id="accordionExample">
                         <div class="accordion-item">
-                          <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                               Clientes
                             </button>
-                          </h2>
-                          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <tr *ngFor="let cliente of clientes">
-                                <button type="submit" (click)="clienteSeleccionado()" class="btn mt-3" style="background-color: #4AA7ED;">{{cliente.nombres}} {{cliente.apellidos}} {{cliente.telefono}} {{cliente.domicilio}}</button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <tr *ngFor="let cliente of clientes">
+                                        <button type="submit" (click)="clienteSeleccionado(cliente)" class="btn mt-3" style="background-color: #4AA7ED;">{{cliente.nombres}} {{cliente.apellidos}} {{cliente.telefono}} {{cliente.domicilio}}</button>
+                                </div>
                             </div>
-                          </div>
                         </div>
                         <div class="accordion-item">
-                          <h2 class="accordion-header" id="headingTwo">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                               Productos
                             </button>
-                          </h2>
-                          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <tr *ngFor="let productos of producto">
-                                <button type="submit" (click)="productoSeleccionado()" class="btn mt-3" style="background-color: #4AA7ED;">{{productos.nombre}} {{productos.preciounitario | currency}}</button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <tr *ngFor="let productos of producto">
+                                        <button type="submit" (click)="productoSeleccionado(productos)" class="btn mt-3" style="background-color: #4AA7ED;">{{productos.nombre}} {{productos.preciounitario | currency}}</button>
+                                </div>
                             </div>
-                          </div>
                         </div>
-                        <div class="accordion-item">
-                          <h2 class="accordion-header" id="headingThree">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        <!---<div class="accordion-item">
+                            <h2 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                               Selecciona la cantidad
                             </button>
-                          </h2>
-                          <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <label for="">Cantidad</label>
-                                <input type="number" class="form-control form-control-lg mt-1" formControlName="cantidad" placeholder="Cantidad">
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <label for="">Cantidad</label>
+                                    <input type="number" class="form-control form-control-lg mt-1" formControlName="cantidad" placeholder="Cantidad">
+                                </div>
                             </div>
-                          </div>
-                        </div>
-                      </div>
+                        </div>-->
+                    </div>
                 </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h3>Cliente: {{clienteNombre}}</h3>
+                    <h4>Telefono: {{clienteTelefono}}</h4>
+                    <tr *ngFor="let productoSelc of productosSeleccionadosVista">
+                        <td>{{productoSelc.nombre}}</td>
+                        <td>{{productoSelc.preciounitario | currency}}</td>
+                        <td>
+                            <label for="">Cantidad:</label>
+                            <input id="cantidadProducto" type="number" class="form-control form-control-lg mt-1" formControlName="can" placeholder="Cantidad" value="{{productoSelc.cantidad}}" (change)="cantidadProducto($event,productoSelc)">
+                        </td>
+                        <td>Total: {{productoSelc.total}}</td>
+                    </tr>
+                    <button (click)="verProductos(productosSeleccionadosVista)">VerProductos</button>
+                    <button class="btn btn-dark btn-lg" style="background-color: #4AA7ED !important; border:#4AA7ED;" (click)="exportarCotizacion()" id='botonExportar'>Exportar Cotizacion</button>
+                </div>
+            </div>
         </div>
     </div>
-</div>

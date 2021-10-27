@@ -26,7 +26,7 @@ export class InicioComponent implements OnInit {
         if(user!==null){
           // Diego: "s3OyXPySHPZqSQzTsMTehDdju4I3"
           // Daniel: "s3OyXPySHPZqSQzTsMTehDdju4I3"
-          if(user.uid=='s3OyXPySHPZqSQzTsMTehDdju4I3'){
+          if(user.uid=='a0kDjOVej7TvdvuHKP7y6sUFyQG3'){
             console.log('puedes pasar')
             this.userpermissioncontrolinventario= true;
             this.userpermissioncotizaciones=true;
@@ -55,7 +55,7 @@ export class InicioComponent implements OnInit {
       this.authSvc.afAuth.onAuthStateChanged((user)=>{
         console.log(user)
         if(user!==null){
-          if(user.uid=='s3OyXPySHPZqSQzTsMTehDdju4I3'){
+          if(user.uid=='a0kDjOVej7TvdvuHKP7y6sUFyQG3'){
             console.log('puedes pasar')
             this.userpermissioncontrolinventario= true;
             this.userpermissioncotizaciones=true;
