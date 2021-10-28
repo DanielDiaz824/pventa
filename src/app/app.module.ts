@@ -32,6 +32,15 @@ import { CrearCotizacionComponent } from './componentes/crear-cotizacion/crear-c
 
 import {AuthService} from './auth/services/auth.service';
 
+// Import pdfmake-wrapper and the fonts to use
+import { PdfMakeWrapper } from 'pdfmake-wrapper';
+import * as pdfFonts from "pdfmake/build/vfs_fonts"; // fonts provided for pdfmake
+
+// If any issue using previous fonts import. you can try this:
+// import pdfFonts from "pdfmake/build/vfs_fonts";
+
+// Set the fonts to use
+PdfMakeWrapper.setFonts(pdfFonts);
 
 @NgModule({
   declarations: [

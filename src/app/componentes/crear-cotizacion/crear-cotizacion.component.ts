@@ -2,7 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ClientesService } from '../../services/clientes.service';
 import { ControlService } from '../../services/control.service';
+import { PdfMakeWrapper, Table, Txt, Cell, Img } from 'pdfmake-wrapper';
+import {ITable} from 'pdfmake-wrapper/lib/interfaces';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 
+PdfMakeWrapper.setFonts(pdfFonts);
+
+interface DataResponse{
+  nombre:string,
+  preciounitario: number,
+  cantidad: number,
+  total: number
+}
+
+type TableRow = [string,number,number,number]
 @Component({
   selector: 'app-crear-cotizacion',
   templateUrl: './crear-cotizacion.component.html',
@@ -114,7 +127,7 @@ export class CrearCotizacionComponent implements OnInit {
   }
 }
 
-exportarCotizacion(){
+async exportarCotizacion(){
     var i = this.productosSeleccionadosVista.length;
     var j = i-1;
     var cantidadNegativa=false;
@@ -134,10 +147,31 @@ exportarCotizacion(){
   console.log('Listo para generar PDF');
   alert('Listo para generar PDF');
   //Generar PDF
+  const pdf = new PdfMakeWrapper();
+  pdf.add(await new Img('./assets/img/vectornosek.svg').relativePosition(415,5).color('red').width(100).build())
+  pdf.add(new Txt('COTIZACIONES').alignment('center').bold().fontSize(24).end);
+  pdf.add('Datos del cliente:');
+  pdf.add('Nombre Completo: ' +this.clienteNombre);
+  pdf.add('Telefono: '+this.clienteTelefono);
+  
+  pdf.add(
+      this.createTable(this.productosSeleccionadosVista)
+  )
+  pdf.create().open();
   }else{
     console.log('Verifica');
     alert('Verifica');
   }
 }
 }
+  createTable(data: DataResponse[]): ITable{
+    [{}]
+    return new Table([
+      ['NOMBRE','PRECIO UNITARIO','CANTIDAD','TOTAL'],
+      ...this.datosAcomodados(data)
+    ]).layout('lightHorizontalLines').widths('*').end
+  }
+  datosAcomodados(data:DataResponse[]): TableRow[]{
+    return data.map(row=>[row.nombre,row.preciounitario,row.cantidad,row.total] as TableRow);
+  }
 }
