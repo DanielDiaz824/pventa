@@ -33,6 +33,7 @@ export class CrearCotizacionComponent implements OnInit {
   constructor(private router:Router, private _clientesService:ClientesService,private _productoService:ControlService) { }
 
   ngOnInit(): void {
+    console.log(new Date ().toLocaleDateString("es-MX",{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }));
     (document.getElementById('botonExportar') as HTMLButtonElement).disabled = true;
     this.getClientes();
     this.getProductos();
@@ -162,7 +163,8 @@ async exportarCotizacion(){
   pdf.add(
       this.createTable(this.productosSeleccionadosVista)
   )
-  pdf.add(new Txt('IVA incluido en TOTAL').italics().end)
+  pdf.add(new Txt('IVA incluido en TOTAL').alignment('right').italics().end)
+  pdf.add(new Txt('Fecha de creacion: '+ new Date ().toLocaleDateString("es-MX",{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })).alignment('left').italics().end)
   pdf.create().open();
   }else{
     console.log('Verifica');
