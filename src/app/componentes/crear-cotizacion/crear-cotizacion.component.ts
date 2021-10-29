@@ -12,10 +12,11 @@ interface DataResponse{
   nombre:string,
   preciounitario: number,
   cantidad: number,
-  total: number
+  total: number,
+  totalWithIVA: number
 }
 
-type TableRow = [string,number,number,number]
+type TableRow = [string,number,number,number, number]
 @Component({
   selector: 'app-crear-cotizacion',
   templateUrl: './crear-cotizacion.component.html',
@@ -88,7 +89,8 @@ export class CrearCotizacionComponent implements OnInit {
       nombre:producto.nombre,
       preciounitario:producto.preciounitario,
       cantidad:0,
-      total:0
+      total:0,
+      totalWithIVA:0
     })
   }
     console.log(this.productosSeleccionadosVista);
@@ -119,6 +121,9 @@ export class CrearCotizacionComponent implements OnInit {
         console.log('Producto a cantidad a actualizar en la posicion: '+j);
         this.productosSeleccionadosVista[j].cantidad=valor.target.valueAsNumber;
         this.productosSeleccionadosVista[j].total=this.productosSeleccionadosVista[j].cantidad*this.productosSeleccionadosVista[j].preciounitario;
+        var totalProducto= this.productosSeleccionadosVista[j].total*1.16;
+        totalProducto= +totalProducto.toFixed(2);
+        this.productosSeleccionadosVista[j].totalWithIVA= totalProducto;
         produtoExistente=true;
       }
       j=j-1;
@@ -157,6 +162,7 @@ async exportarCotizacion(){
   pdf.add(
       this.createTable(this.productosSeleccionadosVista)
   )
+  pdf.add(new Txt('IVA incluido en TOTAL').italics().end)
   pdf.create().open();
   }else{
     console.log('Verifica');
@@ -167,11 +173,11 @@ async exportarCotizacion(){
   createTable(data: DataResponse[]): ITable{
     [{}]
     return new Table([
-      ['NOMBRE','PRECIO UNITARIO','CANTIDAD','TOTAL'],
+      ['NOMBRE','PRECIO UNIT.','CANTIDAD','SUBTOTAL','TOTAL'],
       ...this.datosAcomodados(data)
     ]).layout('lightHorizontalLines').widths('*').end
   }
   datosAcomodados(data:DataResponse[]): TableRow[]{
-    return data.map(row=>[row.nombre,row.preciounitario,row.cantidad,row.total] as TableRow);
+    return data.map(row=>[row.nombre,row.preciounitario,row.cantidad,row.total,row.totalWithIVA] as TableRow);
   }
 }

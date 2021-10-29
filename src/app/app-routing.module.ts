@@ -22,6 +22,7 @@ import { ListadoclientesGuard } from './guards/listadoclientes.guard';
 import { CrearclienteGuard } from './guards/crearcliente.guard';
 import { EditclienteGuard } from './guards/editcliente.guard';
 import { CrearCotizacionComponent } from './componentes/crear-cotizacion/crear-cotizacion.component';
+import { CrearcotizacionGuard } from './guards/crearcotizacion.guard';
 
 
 const routes: Routes = [
@@ -41,7 +42,7 @@ const routes: Routes = [
   {path:'listadoclientes',component:ListadoclientesComponent, canActivate:[ListadoclientesGuard]},
   {path:'crearcliente',component:CrearclienteComponent, canActivate:[CrearclienteGuard]},
   {path:'editcliente/:id',component:CrearclienteComponent, canActivate:[EditclienteGuard]},
-  {path:'crear-cotizacion',component:CrearCotizacionComponent},
+  {path:'crear-cotizacion',component:CrearCotizacionComponent, canActivate:[CrearcotizacionGuard]},
   
   {path:'**',redirectTo:'home', pathMatch:'full'},
 ];

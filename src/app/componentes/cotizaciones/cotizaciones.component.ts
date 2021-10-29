@@ -21,6 +21,11 @@ export class CotizacionesComponent implements OnInit {
       location.reload();
     })
   }
+  goNuevaCotizacion(){
+    this.router.navigate(['/crear-cotizacion']).then(()=>{
+      location.reload();
+    })
+  }
 
   getClientes(){
     this._clientesService.getClientes().subscribe(data=>{
