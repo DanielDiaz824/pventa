@@ -26,6 +26,8 @@ export class CrearCotizacionComponent implements OnInit {
   clientes: any [] = [];
   producto: any [] = [];
   productosSeleccionadosVista: any [] = [];
+  acumuladoSubTotal=0
+  acumuladoTotalWithIVA=0
   clienteNombre='';
   clienteTelefono='';
   clienteBoolean=false;
@@ -153,17 +155,27 @@ async exportarCotizacion(){
   console.log('Listo para generar PDF');
   alert('Listo para generar PDF');
   //Generar PDF
+  await this.acumulado();
   const pdf = new PdfMakeWrapper();
   pdf.add(await new Img('./assets/img/vectornosek.svg').relativePosition(415,5).color('red').width(100).build())
-  pdf.add(new Txt('COTIZACIONES').alignment('center').bold().fontSize(24).end);
+  pdf.add(new Txt('COTIZACIONES SECT').alignment('center').bold().fontSize(24).end);
+  pdf.add("\n");
   pdf.add('Datos del cliente:');
   pdf.add('Nombre Completo: ' +this.clienteNombre);
   pdf.add('Telefono: '+this.clienteTelefono);
-  
+  pdf.add("\n");
   pdf.add(
       this.createTable(this.productosSeleccionadosVista)
   )
   pdf.add(new Txt('IVA incluido en TOTAL').alignment('right').italics().end)
+  pdf.add("\n");
+  pdf.add(
+    new Table([
+      ['SUBTOTAL ACUMULADO', 'TOTAL ACUMULADO'],
+      [this.acumuladoSubTotal,this.acumuladoTotalWithIVA]
+    ]).layout('lightHorizontalLines').widths('*').end
+  )
+  pdf.add("\n");
   pdf.add(new Txt('Fecha de creacion: '+ new Date ().toLocaleDateString("es-MX",{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })).alignment('left').italics().end)
   pdf.create().open();
   }else{
@@ -181,5 +193,14 @@ async exportarCotizacion(){
   }
   datosAcomodados(data:DataResponse[]): TableRow[]{
     return data.map(row=>[row.nombre,row.preciounitario,row.cantidad,row.total,row.totalWithIVA] as TableRow);
+  }
+
+  async acumulado(){
+    var i = 0;
+    do{
+      this.acumuladoSubTotal=this.acumuladoSubTotal+this.productosSeleccionadosVista[i].total;
+      this.acumuladoTotalWithIVA=this.acumuladoTotalWithIVA+this.productosSeleccionadosVista[i].totalWithIVA;
+      i=i+1;
+    }while(i<this.productosSeleccionadosVista.length)//5
   }
 }
