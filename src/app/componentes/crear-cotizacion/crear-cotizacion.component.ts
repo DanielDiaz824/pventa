@@ -84,7 +84,7 @@ export class CrearCotizacionComponent implements OnInit {
       }
       j=j-1;
       i=i-1;
-    }while(i!=0);
+    }while(i!==0);
   }
     if(produtoExistente!==true){
       this.productoBoolean=true;
@@ -131,7 +131,7 @@ export class CrearCotizacionComponent implements OnInit {
       }
       j=j-1;
       i=i-1;
-    }while(i!==0 || produtoExistente!=true);
+    }while(i!==0 || produtoExistente!==true);
   }
 }
 
@@ -148,7 +148,7 @@ async exportarCotizacion(){
     j=j-1;
     i=i-1;
   }while(i>0)
-  if(cantidadNegativa!=true  && this.clienteBoolean!=false && this.productoBoolean!=false){
+  if(cantidadNegativa!==true  && this.clienteBoolean!==false && this.productoBoolean!==false){
   console.log(this.productosSeleccionadosVista)
   console.log(this.clienteNombre)
   console.log(this.clienteTelefono);

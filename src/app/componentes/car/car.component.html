@@ -4,8 +4,28 @@
             <div class="card text-center">
                 <div class="card-body">
                     <h3>Productos Seleccionados</h3>
+                    <h5 *ngIf="carritoProductos.length==0" style="text-align: center">No hay datos para mostrar</h5>
                     <form class="mt-4">
-                        
+                        <div class="card">
+                            <div class="card-body">
+                                <tr *ngFor="let productoCar of carritoProductos" style="display: grid">
+                                    <div>
+                                        <td style="display: block; text-align: center;">{{productoCar.nombre}}</td>
+                                        <img src="{{productoCar.foto}}" alt="">
+                                    </div>
+                                    <td>{{productoCar.preciounitario | currency}}</td>
+                                    <td>
+                                        <label for="">Cantidad:</label>
+                                        <input id="cantidadProducto" type="number" class="form-control form-control-lg mt-1" placeholder="Cantidad" value="{{productoCar.cantidad}}" (change)="cantidadProducto($event,productoCar)">
+                                    </td>
+                                    <td>Total: {{productoCar.total}}</td>
+                                </tr>
+                                <button type="text" class="btn btn-secondary btn-lg" *ngIf="carritoProductos.length!==0" style="margin-right: 10px;" (click)="vaciarCarrito($event)">Vaciar Carrito</button>
+                                <button class="btn btn-dark btn-lg" *ngIf="carritoProductos.length!==0" type="button" style="background-color: #4AA7ED !important; border:#4AA7ED;" (click)=verTotal($event)>Ver Total</button>
+                                <h6 *ngIf="carritoProductos.length!==0">Total Acumulado: {{acumuladoSubTotal}}</h6>
+                                <h6 *ngIf="carritoProductos.length!==0">Total Acumulado CON IVA: {{acumuladoTotalWithIVA}}</h6>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
