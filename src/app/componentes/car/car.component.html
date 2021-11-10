@@ -1,7 +1,7 @@
 <div class="container pt-4">
     <div class="row">
-        <div class="col-lg-6 offset-lg-3">
-            <div class="card text-center">
+        <div class="col-lg-6 offset-lg-3" style="display: contents;">
+            <div id="car-products" class="card text-center">
                 <div class="card-body">
                     <h3>Productos Seleccionados</h3>
                     <h5 *ngIf="carritoProductos.length==0" style="text-align: center">No hay datos para mostrar</h5>
@@ -20,8 +20,8 @@
                                     </td>
                                     <td>Total: {{productoCar.total}}</td>
                                 </tr>
-                                <button type="text" class="btn btn-secondary btn-lg" *ngIf="carritoProductos.length!==0" style="margin-right: 10px;" (click)="vaciarCarrito($event)">Vaciar Carrito</button>
-                                <button class="btn btn-dark btn-lg" *ngIf="carritoProductos.length!==0" type="button" style="background-color: #4AA7ED !important; border:#4AA7ED;" (click)=verTotal($event)>Ver Total</button>
+                                <button id="vaciarCar" type="text" class="btn btn-secondary btn-lg" *ngIf="carritoProductos.length!==0" style="margin-right: 10px;" (click)="vaciarCarrito($event)">Vaciar Carrito</button>
+                                <button id="verTotal" class="btn btn-dark btn-lg" *ngIf="carritoProductos.length!==0" type="button" style="background-color: #4AA7ED !important; border:#4AA7ED;" (click)=verTotal($event)>Ver Total</button>
                                 <h6 *ngIf="carritoProductos.length!==0">Total Acumulado: {{acumuladoSubTotal}}</h6>
                                 <h6 *ngIf="carritoProductos.length!==0">Total Acumulado CON IVA: {{acumuladoTotalWithIVA}}</h6>
                             </div>
@@ -29,6 +29,62 @@
                     </form>
                 </div>
             </div>
+            <div id="card-info" class="card">
+                <div class="card-body">
+                    <h3 style="text-align: center">Datos de Tarjeta
+                        <div id="loading" class="spinner-border text-warning float-right" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </h3>
+                    <ngx-stripe-card [options]="cardOptions" [elementsOptions]="elementsOptions"></ngx-stripe-card>
+                    <button id="realizarPago" class="btn btn-success btn-lg" type="submit" (click)="createToken()" style="margin: auto;
+                    display: block;
+                    margin-top: 2%;">Realizar pago</button>
+                </div>
+            </div>
         </div>
+
     </div>
 </div>
+
+<ng-template #myModalConf let-modal>
+
+    <div class="modal-content" style="padding-left: 3%;
+    padding-right: 3%;">
+        <div class="modal-header">
+            <h5 style="margin auto;" class="modal-title">Verifique su compra antes de continuar</h5>
+            <button style="color: white;
+            background: red;
+            border: red;
+            border-radius: 5px;" type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.close('Cerrado desde la ventana')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <table class="modal-body">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad Producto</th>
+                    <th>Total</th>
+                    <th>Total+IVA</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let productoCar of carritoProductos">
+                    <td>{{productoCar.nombre}}</td>
+                    <td>{{productoCar.cantidad}}</td>
+                    <td>{{productoCar.total}}</td>
+                    <td>{{productoCar.totalWithIVA}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="modal-footer">
+            Total a pagar(IVA incluido) = {{acumuladoTotalWithIVA}}
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modal.close(0)">Olvidé algo</button>
+            <button type="button" class="btn btn-primary" (click)="modal.close(1)">Continuar con la compra</button>
+        </div>
+    </div>
+
+</ng-template>

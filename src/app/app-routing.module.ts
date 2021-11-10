@@ -27,7 +27,7 @@ import { CrearcotizacionGuard } from './guards/crearcotizacion.guard';
 
 const routes: Routes = [
   {path:'',redirectTo:'home', pathMatch:'full'},
-{path:'car',component:CarComponent,canActivate:[CarGuard]},
+{path:'car',component:CarComponent/*,canActivate:[CarGuard]*/},
   {path:'createaccount',component:CreateaccountComponent, canActivate:[CreateaccountGuard]},
   {path:'home',component:HomeComponent},
   {path:'inicio',component:InicioComponent},

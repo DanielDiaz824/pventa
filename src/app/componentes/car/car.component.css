@@ -6,3 +6,12 @@ img {
     /* margin: 0; */
     /* margin-right: 0; */
 }
+
+#card-info {
+    display: table;
+    width: 40%;
+}
+
+#car-products {
+    width: inherit;
+}

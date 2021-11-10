@@ -11,7 +11,8 @@ export const environment = {
   storageBucket: "puntoventa-5e01a.appspot.com",
   messagingSenderId: "384757783834",
   appId: "1:384757783834:web:c36c18bb16d05c85b1a0a3"
-  }
+  },
+  stripeApiURL:"https://sect-web.herokuapp.com/",
 };
 
 /*

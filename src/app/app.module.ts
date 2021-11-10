@@ -35,6 +35,9 @@ import {AuthService} from './auth/services/auth.service';
 // Import pdfmake-wrapper and the fonts to use
 import { PdfMakeWrapper } from 'pdfmake-wrapper';
 import * as pdfFonts from "pdfmake/build/vfs_fonts"; // fonts provided for pdfmake
+import { NgxStripeModule } from 'ngx-stripe';
+import { HttpClientModule } from '@angular/common/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // If any issue using previous fonts import. you can try this:
 // import pdfFonts from "pdfmake/build/vfs_fonts";
@@ -69,7 +72,10 @@ PdfMakeWrapper.setFonts(pdfFonts);
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
     AngularFireAuthModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    HttpClientModule,
+    NgxStripeModule.forRoot('pk_test_51Ju4X9C4UcuLTZ8wHqlvA9dGWAJjhFdY0osA7qP80muBsUk0ZySgpNGIYZ3EaRPuyMKM1tCqO9f4UwjJB57y4Hul00uIYbM6Cn'),
+    NgbModule
   ],
   providers: [AuthService, InicioComponent],
   bootstrap: [AppComponent]

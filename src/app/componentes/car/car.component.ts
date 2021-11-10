@@ -1,7 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { AuthService } from '../../auth/services/auth.service';
 import { CarritoService } from '../../carrito.service';
 import { ToastrService } from 'ngx-toastr';
+
+import { StripeService, StripeCardComponent } from 'ngx-stripe';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ComprasService } from '../../compras.service';
+import {
+  StripeCardElementOptions,
+  StripeElementsOptions
+} from '@stripe/stripe-js';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-car',
@@ -11,18 +20,96 @@ import { ToastrService } from 'ngx-toastr';
 export class CarComponent implements OnInit {
   carritoProductos:any[ ] = [ ];
   idUser: string ='';
+  emailUser: string |null = '';
   acumuladoSubTotal=0
   acumuladoTotalWithIVA=0
-  constructor(private _carritoService: CarritoService, private authSvc: AuthService, private toastr: ToastrService) { }
+
+  @ViewChild(StripeCardComponent)
+  card!: StripeCardComponent;
+  cardOptions: StripeCardElementOptions = {
+    style: {
+      base: {
+        iconColor: '#666EE8',
+        color: '#31325F',
+        fontWeight: '300',
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSize: '18px',
+        '::placeholder': {
+          color: '#CFD7E0'
+        }
+      }
+    }
+  };
+  elementsOptions: StripeElementsOptions = {
+    locale: 'auto'
+  };
+
+  stripeTest!: FormGroup;
+
+  @ViewChild("myModalConf", {static: false}) myModalConf: TemplateRef<any> | undefined;
+  constructor(private _carritoService: CarritoService, private authSvc: AuthService, private toastr: ToastrService,
+    private fb: FormBuilder, private stripeService: StripeService, private compra: ComprasService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
+    (document.getElementById('realizarPago') as HTMLButtonElement).disabled = true;
+    (document.getElementById('loading') as HTMLButtonElement).style.display ='none';
     this.obtenerCarritoInicio();
+    this.stripeTest = this.fb.group({
+      name: ['', [Validators.required]]
+    });
+    
   }
+  mostrarModalConf(){
+    this.modalService.open(this.myModalConf).result.then( r => {
+      console.log("Tu respuesta ha sido: " + r);
+      if(r==1){
+        console.log('Continua dice');
+        (document.getElementById('realizarPago') as HTMLButtonElement).disabled = false;
+        (document.getElementById('vaciarCar') as HTMLButtonElement).disabled = true;
+        (document.getElementById('verTotal') as HTMLButtonElement).disabled = true;
+      }
+    }, error => {
+      console.log(error);
+    });
+  }
+   async createToken() {
+      let i: number=0;
+      const j = this.carritoProductos.length;
+      let textoCompra: string="";
+      do{
+        textoCompra = textoCompra + this.carritoProductos[i].nombre + ' X '+this.carritoProductos[i].cantidad + " = "+ this.carritoProductos[i].totalWithIVA+'\n';
+        i++
+      }while(i<j);
+      textoCompra = textoCompra;
+    (document.getElementById('realizarPago') as HTMLButtonElement).disabled = true;
+    const name = this.stripeTest.get('name')!.value;
+    (document.getElementById('loading') as HTMLButtonElement).style.display ='inline-block';
+     this.stripeService
+      .createToken(this.card.element, { name })
+      .subscribe((result) => {
+        if (result.token) {
+          // Use the token
+          console.log(result.token.id);
+          this.compra.completarPago((this.acumuladoTotalWithIVA*100),"MXN",result.token.id,textoCompra,this.emailUser);
+        } else if (result.error) {
+          // Error creating the token
+          console.log(result.error.message);
+          this.toastr.error(result.error.message, '¡Ha ocurrido un error!',{
+            positionClass:'toast-bottom-right'
+          });
+          (document.getElementById('loading') as HTMLButtonElement).style.display ='none';
+          (document.getElementById('realizarPago') as HTMLButtonElement).disabled = false;
+        }
+      });
+  }
+  
 
   async obtenerCarritoInicio(){
     await this.authSvc.afAuth.onAuthStateChanged((user)=>{
        if(user!==null){
-         this.idUser=user.uid
+         this.idUser=user.uid;
+         this.emailUser=user.email;
+         console.log(this.emailUser)
          console.log(this.idUser);
       this._carritoService.getCarrito(this.idUser).subscribe((data)=>{
         console.log(data.data())
@@ -82,10 +169,17 @@ export class CarComponent implements OnInit {
     console.log('Listo para pagar');
   console.log(this.carritoProductos)
   this.acumulado();
-  alert('Listo para pagar, fijate en la consola despues del texto "Listo para pagar", Daniel');
+  //alert('Listo para pagar, fijate en la consola despues del texto "Listo para pagar", Daniel');
+  this.mostrarModalConf();
+  //(document.getElementById('realizarPago') as HTMLButtonElement).disabled = false;
+  //(document.getElementById('vaciarCar') as HTMLButtonElement).disabled = true;
+  //(document.getElementById('verTotal') as HTMLButtonElement).disabled = true;
   //Generar PDF
   }else{
-    alert('Verifica')
+    //alert('Verifica')
+    this.toastr.error('Verifica los datos e intentalo denuevo.', '¡Ha ocurrido un error!',{
+      positionClass:'toast-bottom-right'
+    });
   }
 }
   }
