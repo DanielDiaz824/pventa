@@ -9,9 +9,20 @@ img {
 
 #card-info {
     display: table;
-    width: 40%;
+    width: 33%;
 }
 
 #car-products {
-    width: inherit;
+    width: initial;
+}
+
+.row {
+    margin-right: -190px;
+    margin-left: -50px;
+}
+
+form {
+    display: block;
+    margin: auto;
+    margin-top: 1% !important;
 }

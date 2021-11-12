@@ -11,6 +11,8 @@ import {
   StripeElementsOptions
 } from '@stripe/stripe-js';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ControlService } from '../../services/control.service';
+import { PagosAdminService } from '../../pagos-admin.service';
 
 @Component({
   selector: 'app-car',
@@ -24,6 +26,11 @@ export class CarComponent implements OnInit {
   acumuladoSubTotal=0
   acumuladoTotalWithIVA=0
 
+  createPay:FormGroup;
+  submitted = false;
+  verificarCantidadProductos= true;
+  compraFinal: any[]=[];
+  idCompraRealizadas: string='';
   @ViewChild(StripeCardComponent)
   card!: StripeCardComponent;
   cardOptions: StripeCardElementOptions = {
@@ -48,7 +55,15 @@ export class CarComponent implements OnInit {
 
   @ViewChild("myModalConf", {static: false}) myModalConf: TemplateRef<any> | undefined;
   constructor(private _carritoService: CarritoService, private authSvc: AuthService, private toastr: ToastrService,
-    private fb: FormBuilder, private stripeService: StripeService, private compra: ComprasService, private modalService: NgbModal) { }
+    private fb: FormBuilder, private stripeService: StripeService, private compra: ComprasService,
+    private modalService: NgbModal, private _productoService:ControlService, private _pagoAdminService: PagosAdminService) { 
+
+      this.createPay = this.fb.group({
+        nombre:['',Validators.required],
+        direccion:['',Validators.required],
+        telefono:['',Validators.required]
+      })
+    }
 
   ngOnInit(): void {
     (document.getElementById('realizarPago') as HTMLButtonElement).disabled = true;
@@ -61,18 +76,88 @@ export class CarComponent implements OnInit {
   }
   mostrarModalConf(){
     this.modalService.open(this.myModalConf).result.then( r => {
+      this.submitted = true;
       console.log("Tu respuesta ha sido: " + r);
       if(r==1){
+        if(this.createPay.invalid){
+          console.log(this.submitted);
+          console.log(this.createPay.invalid)
+          return this.mostrarModalConf();
+        }
         console.log('Continua dice');
         (document.getElementById('realizarPago') as HTMLButtonElement).disabled = false;
         (document.getElementById('vaciarCar') as HTMLButtonElement).disabled = true;
         (document.getElementById('verTotal') as HTMLButtonElement).disabled = true;
       }
+      this.submitted = false;
     }, error => {
+      this.submitted = false;
       console.log(error);
     });
   }
+
+  async verificarCantidad(){
+    console.log(this.carritoProductos.length);
+    var i=0;
+    do{
+      console.log(this.carritoProductos[i])
+      await this._productoService.getProductoPago(this.carritoProductos[i].id).toPromise().then((data:any)=>{
+        if(data.data()==undefined){
+          console.log('Producto no existe')
+          this.toastError('El producto '+ this.carritoProductos[i].nombre+ ' ya no se encuentra disponible, vacíe el carrito para continuar.','¡Ha ocurrido un error!');
+          this.verificarCantidadProductos= false;
+          console.log(data.data());
+          (document.getElementById('loading') as HTMLButtonElement).style.display ='none';
+          setTimeout(() => { location.reload() }, 3000);
+        }else{
+      console.log(data.data().precioproveedor);
+      console.log(this.carritoProductos[i])
+     if(this.carritoProductos[i].precioproveedor == data.data().precioproveedor &&
+      this.carritoProductos[i].preciounitario == data.data().preciounitario &&
+      this.carritoProductos[i].descripcion == data.data().descripcion &&
+      this.carritoProductos[i].nombre == data.data().nombre &&
+      this.carritoProductos[i].foto == data.data().foto ){
+        console.log('El producto se encuentra actualizado');
+        var cantidadFinal= 0;
+        cantidadFinal = data.data().existentes -this.carritoProductos[i].cantidad;
+        console.log(cantidadFinal);
+        if(data.data().existentes==0){
+          this.toastError('El producto '+ this.carritoProductos[i].nombre+ ' se encuentra agotado, vacíe el carrito para continuar.','¡Ha ocurrido un error!');
+          this.verificarCantidadProductos= false;
+          console.log('Agotado');
+          (document.getElementById('loading') as HTMLButtonElement).style.display ='none';
+          setTimeout(() => { location.reload() }, 3000);
+        }else{
+        if(cantidadFinal>=0){
+          this.carritoProductos[i].cantidadPostCompraProducto = cantidadFinal;
+          console.log('Puede seguir la compra');
+          
+        }else{
+          this.toastError('Hay '+data.data().existentes+' '+this.carritoProductos[i].nombre+ ' en existencia , ingrese una cantidad valida para continuar.','¡Ha ocurrido un error!');
+          this.verificarCantidadProductos= false;
+          console.log('No hay mas');
+          (document.getElementById('loading') as HTMLButtonElement).style.display ='none';
+          setTimeout(() => { location.reload() }, 3000);
+        }
+      }
+      }else{
+        console.log('El producto se encuentrá desactualizado');
+        this.toastError('El producto '+ this.carritoProductos[i].nombre+ ' se encuentra desactualizado, vacíe el carrito y vuelta a intentarlo.','¡Ha ocurrido un error!');
+        this.verificarCantidadProductos= false;
+        setTimeout(() => { location.reload() }, 3000);
+      }
+       }
+      });
+      i=i+1;
+    }while(i!==this.carritoProductos.length);
+
+  }
    async createToken() {
+    (document.getElementById('realizarPago') as HTMLButtonElement).disabled = true;
+    (document.getElementById('loading') as HTMLButtonElement).style.display ='inline-block';
+    await this.verificarCantidad().finally(()=>{
+    console.log('Debo aparecer al final');
+    if(this.verificarCantidadProductos==true){
       let i: number=0;
       const j = this.carritoProductos.length;
       let textoCompra: string="";
@@ -81,16 +166,57 @@ export class CarComponent implements OnInit {
         i++
       }while(i<j);
       textoCompra = textoCompra;
-    (document.getElementById('realizarPago') as HTMLButtonElement).disabled = true;
     const name = this.stripeTest.get('name')!.value;
-    (document.getElementById('loading') as HTMLButtonElement).style.display ='inline-block';
      this.stripeService
       .createToken(this.card.element, { name })
       .subscribe((result) => {
         if (result.token) {
           // Use the token
           console.log(result.token.id);
-          this.compra.completarPago((this.acumuladoTotalWithIVA*100),"MXN",result.token.id,textoCompra,this.emailUser);
+          this.compra.completarPago((this.acumuladoTotalWithIVA*100),"MXN",result.token.id,textoCompra,this.emailUser).toPromise().then((result)=>{
+            console.log(result);
+            //PAGADO
+            this.idCompraRealizadas=result.id;
+            //(document.getElementById('loading') as HTMLButtonElement).style.display ='none';
+            //this.toastSuccess('Pago realizado con exito. Gracias por comprar aqui', '¡Pedido Exitoso!');
+            this.toastInfo('Proceso 1 validado.', 'Proceso 1/3');
+            console.log(JSON.stringify(result));
+            //setTimeout(() => { location.reload() }, 3000)
+            //this.presentAlert('Pedido Exitoso!',`Pago realizado con exito. Gracias por comprar aqui.`);
+            var actualizarCantidad=false;
+            var obtenerCompras=false;
+            this.actualizarProductoPostCompra().finally(()=>{ actualizarCantidad=true});
+            this.obtenerCompraInicio().finally(()=>{obtenerCompras=true; });
+              const esperacompra = setInterval(() => { 
+              if(actualizarCantidad==true && obtenerCompras==true){
+                clearInterval(esperacompra);
+                var nuevaCompra ={
+                  Productos: this.carritoProductos,
+                  IDCompra: this.idCompraRealizadas,
+                  FechaCreacion:new Date ().toLocaleDateString("es-MX",{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:'numeric', minute:'numeric', second:'numeric', hour12:true}),
+                  FechaActualizacion:new Date ().toLocaleDateString("es-MX",{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:'numeric', minute:'numeric', second:'numeric', hour12:true}),
+                  Cliente: this.createPay.value.nombre,
+                  Correo:this.emailUser,
+                  Direccion: this.createPay.value.direccion,
+                  Telefono: this.createPay.value.telefono,
+                  TotalWithIVA: this.acumuladoTotalWithIVA,
+                  Estado:'Pagado'
+                }
+                console.log(this.compraFinal);
+                this.compraFinal.push(nuevaCompra);
+                console.log(this.compraFinal);
+                this._pagoAdminService.agregarPago(this.compraFinal,this.idUser);   
+              }
+            }, 3000);  
+          }).catch((error)=>{
+            console.log(error);
+            (document.getElementById('loading') as HTMLButtonElement).style.display ='none';
+            console.log("*********API RESPONDE ERROR*********");
+            this.toastError('Intentelo denuevo mas tarde.', '¡Ha ocurrido un error!');
+            console.log(JSON.stringify(error));
+            setTimeout(() => { location.reload() }, 3000)
+            //this.presentAlert('Ups!...',`Ha ocurrido un error durante el pago, intentelo denuevo mas tarde.`);
+          })
         } else if (result.error) {
           // Error creating the token
           console.log(result.error.message);
@@ -101,6 +227,7 @@ export class CarComponent implements OnInit {
           (document.getElementById('realizarPago') as HTMLButtonElement).disabled = false;
         }
       });
+    }})
   }
   
 
@@ -124,7 +251,33 @@ export class CarComponent implements OnInit {
    }
    })
    }
+   async obtenerCompraInicio(){
+     console.log(this.idUser);
+     await this._pagoAdminService.getCompras(this.idUser).subscribe((data:any)=>{
+      console.log(data.data().compras)
+       if(data.data().compras==undefined){
+         console.log('No hay Compras')
+       }else{
+       this.compraFinal=data.data().compras;
+       console.log('Compras Antes')
+       console.log(this.compraFinal);
+       }
+     })
+   }
 
+   async actualizarProductoPostCompra(){
+    var i =0;
+    do{
+    await this._productoService.actualizarProductoPostCompra(this.carritoProductos[i].id,this.carritoProductos[i].cantidadPostCompraProducto).then((result:any)=>{
+      console.log(result);
+      //Productos actualizados en cantidad de existencia
+    }).catch((error)=>{
+      console.log(error);
+    });
+    i=i+1;
+  }while(i!==this.carritoProductos.length);
+  this.toastInfo('Proceso 2 validado.', 'Proceso 2/3');
+   }
    cantidadProducto(valor:any, producto:any){
     console.log(producto);
     console.log('Nueva cantidad:'+valor.target.valueAsNumber);
@@ -205,6 +358,21 @@ export class CarComponent implements OnInit {
       this.toastr.success('Carrito vaciado', '¡Vacio!',{
         positionClass:'toast-bottom-right'
       });
+    });
+  }
+  toastSuccess(mensaje: any, titulo:any){
+    this.toastr.success(mensaje, titulo,{
+      positionClass:'toast-bottom-right'
+    });
+  }
+  toastError(mensaje: any, titulo:any){
+    this.toastr.error(mensaje, titulo,{
+      positionClass:'toast-bottom-right'
+    });
+  }
+  toastInfo(mensaje: any, titulo:any){
+    this.toastr.info(mensaje, titulo,{
+      positionClass:'toast-bottom-right'
     });
   }
 }

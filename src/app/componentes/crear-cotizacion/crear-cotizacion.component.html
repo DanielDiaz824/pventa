@@ -15,7 +15,7 @@
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     <tr *ngFor="let cliente of clientes">
-                                        <button type="submit" (click)="clienteSeleccionado(cliente)" class="btn mt-3" style="background-color: #4AA7ED;">{{cliente.nombres}} {{cliente.apellidos}} {{cliente.telefono}} {{cliente.domicilio}}</button>
+                                        <button type="submit" (click)="clienteSeleccionado(cliente)" class="btn mt-3" style="background-color: #4AA7ED;">{{cliente.nombres}} {{cliente.apellidos}} {{cliente.telefono}}</button>
                                 </div>
                             </div>
                         </div>
@@ -62,7 +62,8 @@
                         <td>Total: {{productoSelc.total}}</td>
                     </tr>
                     <!--<button (click)="verProductos(productosSeleccionadosVista)">VerProductos</button>-->
-                    <button class="btn btn-dark btn-lg" style="background-color: #4AA7ED !important; border:#4AA7ED;" (click)="exportarCotizacion()" id='botonExportar'>Exportar Cotizacion</button>
+                    <button class="btn btn-dark btn-lg" style="background-color: #4AA7ED !important; border:#4AA7ED; margin: auto;
+                    display: block;" (click)="exportarCotizacion()" id='botonExportar'>Exportar Cotizacion</button>
                 </div>
             </div>
         </div>

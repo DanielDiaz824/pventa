@@ -24,9 +24,17 @@ export class ControlService {
   getProducto(id:string):Observable<any>{
     return this.firestore.collection('productos').doc(id).snapshotChanges();
   }
+  getProductoPago(id:string){
+    return this.firestore.collection('productos').doc(id).get();
+  }
 
   actualizarEmpleado(id:string,data:any):Promise<any>{
     return this.firestore.collection('productos').doc(id).update(data);
+  }
+  actualizarProductoPostCompra(id:string,data:any):Promise<any>{
+    return this.firestore.collection('productos').doc(id).update({
+      existentes:data
+    })
   }
 
 }

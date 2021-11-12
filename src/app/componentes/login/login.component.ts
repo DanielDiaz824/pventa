@@ -40,12 +40,18 @@ export class LoginComponent implements OnInit {
         //reloadxd
       }else if (user){
         this.router.navigate(['/verification-email']);
+        this.toastr.info('Verifica tu cuenta para continuar.', 'Completa tu registro',{
+          positionClass:'toast-bottom-right'
+        });
         console.log(user);
         this.inicioUser.verificarAuth();
         console.log('Usuario verificado:'+ user.user.emailVerified);
         console.log('No estas verificado');
       }else{
         //this.router.navigate(['/createaccount']);
+        this.toastr.error('Verifica los datos e intentalo denuevo.', '¡Ha ocurrido un error!',{
+          positionClass:'toast-bottom-right'
+        });
       }
      }
      catch(error){

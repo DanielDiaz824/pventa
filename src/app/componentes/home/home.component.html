@@ -17,7 +17,8 @@
                 <h1>{{productos.nombre}}</h1>
                 <img src="{{productos.foto}} " alt=" " style="max-width: 40%; display: block; ">
                 <label>{{productos.descripcion}}</label>
-                <label>{{productos.preciounitario | currency}}</label>
+                <label> {{productos.preciounitario | currency}}</label>
+                <label> Uds: {{productos.existentes}}</label>
                 <button class="btn" style="color: white;background-color: #4AA7ED;" (click)="agregarCarrito(productos)"><i class="fas fa-cart-plus"></i></button>
             </div>
         </div>

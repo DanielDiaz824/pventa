@@ -5,6 +5,7 @@ import { ControlService } from '../../services/control.service';
 import { PdfMakeWrapper, Table, Txt, Cell, Img } from 'pdfmake-wrapper';
 import {ITable} from 'pdfmake-wrapper/lib/interfaces';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import { ToastrService } from 'ngx-toastr';
 
 PdfMakeWrapper.setFonts(pdfFonts);
 
@@ -32,7 +33,7 @@ export class CrearCotizacionComponent implements OnInit {
   clienteTelefono='';
   clienteBoolean=false;
   productoBoolean=false;
-  constructor(private router:Router, private _clientesService:ClientesService,private _productoService:ControlService) { }
+  constructor(private router:Router, private _clientesService:ClientesService,private _productoService:ControlService,  private toastr: ToastrService) { }
 
   ngOnInit(): void {
     console.log(new Date ().toLocaleDateString("es-MX",{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }));
@@ -178,9 +179,13 @@ async exportarCotizacion(){
   pdf.add("\n");
   pdf.add(new Txt('Fecha de creacion: '+ new Date ().toLocaleDateString("es-MX",{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })).alignment('left').italics().end)
   pdf.create().open();
+  this.router.navigate(['/cotizaciones'])
   }else{
     console.log('Verifica');
-    alert('Verifica');
+    //alert('Verifica');
+    this.toastr.error('Verifica los datos e intentalo denuevo.', '¡Ha ocurrido un error!',{
+      positionClass:'toast-bottom-right'
+    });
   }
 }
 }

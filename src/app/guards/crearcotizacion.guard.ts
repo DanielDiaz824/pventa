@@ -20,6 +20,11 @@ export class CrearcotizacionGuard implements CanActivate {
             this.router.navigate(['/home']);
             return false;
           }
+          if(!user.emailVerified){
+            alert('Cuenta no verificada.')
+            this.router.navigate(['/verification-email']);
+            return false;
+          }
           alert('Bienvenido Usuario Promedio, te quiero mucho <3')
           const userInf: any = user;
           console.log(userInf.uid);
