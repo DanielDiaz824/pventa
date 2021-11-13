@@ -15,6 +15,8 @@ export class InicioComponent implements OnInit {
   public userpermissioncontrolinventario=false;
   public userpermissioncotizaciones=false;
   public userpermissioncarrito=true;
+  public userpermissionmiscompras=true;
+  public userpermissionordenpago=false;
   constructor(private authSvc: AuthService,private router:Router) { }
 
   ngOnInit(): void {
@@ -30,7 +32,9 @@ export class InicioComponent implements OnInit {
             console.log('puedes pasar')
             this.userpermissioncontrolinventario= true;
             this.userpermissioncotizaciones=true;
+            this.userpermissionmiscompras=false;
             this.userpermissioncarrito=false;
+            this.userpermissionordenpago=true;
           }
         }
       })
@@ -42,6 +46,8 @@ export class InicioComponent implements OnInit {
       this.userpermissioncontrolinventario= false;
       this.userpermissioncotizaciones=false;
       this.userpermissioncarrito=true;
+      this.userpermissionmiscompras=true;
+      this.userpermissionordenpago=false;
       this.router.navigate(['/login']);
     } catch(error){
       console.log(error);
@@ -60,6 +66,8 @@ export class InicioComponent implements OnInit {
             this.userpermissioncontrolinventario= true;
             this.userpermissioncotizaciones=true;
             this.userpermissioncarrito=false;
+            this.userpermissionmiscompras=false;
+            this.userpermissionordenpago=true;
           }
         }
       })

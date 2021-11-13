@@ -30,7 +30,8 @@ export class CarComponent implements OnInit {
   submitted = false;
   verificarCantidadProductos= true;
   compraFinal: any[]=[];
-  idCompraRealizadas: string='';
+  idCompraRealizada: string='';
+
   @ViewChild(StripeCardComponent)
   card!: StripeCardComponent;
   cardOptions: StripeCardElementOptions = {
@@ -176,10 +177,10 @@ export class CarComponent implements OnInit {
           this.compra.completarPago((this.acumuladoTotalWithIVA*100),"MXN",result.token.id,textoCompra,this.emailUser).toPromise().then((result)=>{
             console.log(result);
             //PAGADO
-            this.idCompraRealizadas=result.id;
+            this.idCompraRealizada=result.id;
             //(document.getElementById('loading') as HTMLButtonElement).style.display ='none';
             //this.toastSuccess('Pago realizado con exito. Gracias por comprar aqui', '¡Pedido Exitoso!');
-            this.toastInfo('Proceso 1 validado.', 'Proceso 1/3');
+            this.toastInfo('Proceso 1 validado.', 'Proceso 1/4');
             console.log(JSON.stringify(result));
             //setTimeout(() => { location.reload() }, 3000)
             //this.presentAlert('Pedido Exitoso!',`Pago realizado con exito. Gracias por comprar aqui.`);
@@ -192,7 +193,7 @@ export class CarComponent implements OnInit {
                 clearInterval(esperacompra);
                 var nuevaCompra ={
                   Productos: this.carritoProductos,
-                  IDCompra: this.idCompraRealizadas,
+                  IDCompra: this.idCompraRealizada,
                   FechaCreacion:new Date ().toLocaleDateString("es-MX",{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:'numeric', minute:'numeric', second:'numeric', hour12:true}),
                   FechaActualizacion:new Date ().toLocaleDateString("es-MX",{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:'numeric', minute:'numeric', second:'numeric', hour12:true}),
                   Cliente: this.createPay.value.nombre,
@@ -205,7 +206,23 @@ export class CarComponent implements OnInit {
                 console.log(this.compraFinal);
                 this.compraFinal.push(nuevaCompra);
                 console.log(this.compraFinal);
-                this._pagoAdminService.agregarPago(this.compraFinal,this.idUser);   
+                this._pagoAdminService.agregarPagoCliente(this.compraFinal,this.idUser).then(()=>{
+                  var ordenPago =[{
+                    Productos: this.carritoProductos,
+                  IDCompra: this.idCompraRealizada,
+                  FechaCreacion:new Date ().toLocaleDateString("es-MX",{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:'numeric', minute:'numeric', second:'numeric', hour12:true}),
+                  FechaActualizacion:new Date ().toLocaleDateString("es-MX",{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:'numeric', minute:'numeric', second:'numeric', hour12:true}),
+                  Cliente: this.createPay.value.nombre,
+                  Correo:this.emailUser,
+                  Direccion: this.createPay.value.direccion,
+                  Telefono: this.createPay.value.telefono,
+                  TotalWithIVA: this.acumuladoTotalWithIVA,
+                  Estado:'Pagado'
+                  }]
+                this._pagoAdminService.agregarOrdenPago(ordenPago,this.idUser,this.idCompraRealizada,
+                  new Date ().toLocaleDateString("es-MX",{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:'numeric', minute:'numeric', second:'numeric', hour12:true}),
+                  new Date ().toLocaleDateString("es-MX",{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:'numeric', minute:'numeric', second:'numeric', hour12:true}));
+                }); 
               }
             }, 3000);  
           }).catch((error)=>{
@@ -253,7 +270,7 @@ export class CarComponent implements OnInit {
    }
    async obtenerCompraInicio(){
      console.log(this.idUser);
-     await this._pagoAdminService.getCompras(this.idUser).subscribe((data:any)=>{
+     await this._pagoAdminService.getComprasCliente(this.idUser).subscribe((data:any)=>{
       console.log(data.data().compras)
        if(data.data().compras==undefined){
          console.log('No hay Compras')
@@ -276,7 +293,7 @@ export class CarComponent implements OnInit {
     });
     i=i+1;
   }while(i!==this.carritoProductos.length);
-  this.toastInfo('Proceso 2 validado.', 'Proceso 2/3');
+  this.toastInfo('Proceso 2 validado.', 'Proceso 2/4');
    }
    cantidadProducto(valor:any, producto:any){
     console.log(producto);

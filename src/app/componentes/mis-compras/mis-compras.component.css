@@ -1,0 +1,30 @@
+#descripcion {
+    white-space: nowrap;
+    overflow: auto;
+    text-overflow: clip;
+    max-width: 20%;
+}
+
+img {
+    width: 6%;
+    display: block;
+    margin: auto;
+}
+
+.infoCliente {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.compra {
+    background: white;
+    border-radius: 10px;
+    margin-bottom: 1%;
+    border: 2px solid gray;
+    display: inline-grid;
+}
+
+form {
+    background: bottom;
+    padding: 1%;
+}

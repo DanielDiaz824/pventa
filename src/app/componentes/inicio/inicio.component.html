@@ -19,11 +19,17 @@
                 <li class="nav-item" *ngIf="userpermissioncarrito">
                     <a class="nav-link" routerLinkActive="active" routerLink="/car">Carrito</a>
                 </li>
+                <li class="nav-item" *ngIf="userpermissionmiscompras">
+                    <a class="nav-link" routerLinkActive="active" routerLink="/mis-compras">Mis Compras</a>
+                </li>
                 <li class="nav-item" *ngIf="userpermissioncontrolinventario">
                     <a class="nav-link" routerLinkActive="active" routerLink="/controlinventario">Control de inventario</a>
                 </li>
                 <li class="nav-item" *ngIf="userpermissioncotizaciones">
                     <a class="nav-link" routerLinkActive="active" routerLink="/cotizaciones">Cotizaciones</a>
+                </li>
+                <li class="nav-item" *ngIf="userpermissionordenpago">
+                    <a class="nav-link" routerLinkActive="active" routerLink="/orden-pago">Ventas</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link">{{ user?.email }}</a>

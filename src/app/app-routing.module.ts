@@ -23,6 +23,8 @@ import { CrearclienteGuard } from './guards/crearcliente.guard';
 import { EditclienteGuard } from './guards/editcliente.guard';
 import { CrearCotizacionComponent } from './componentes/crear-cotizacion/crear-cotizacion.component';
 import { CrearcotizacionGuard } from './guards/crearcotizacion.guard';
+import { MisComprasComponent } from './componentes/mis-compras/mis-compras.component';
+import { OrdenPagoComponent } from './componentes/orden-pago/orden-pago.component';
 
 
 const routes: Routes = [
@@ -43,7 +45,8 @@ const routes: Routes = [
   {path:'crearcliente',component:CrearclienteComponent, canActivate:[CrearclienteGuard]},
   {path:'editcliente/:id',component:CrearclienteComponent, canActivate:[EditclienteGuard]},
   {path:'crear-cotizacion',component:CrearCotizacionComponent, canActivate:[CrearcotizacionGuard]},
-  
+  {path:'mis-compras',component:MisComprasComponent},
+  {path:'orden-pago',component:OrdenPagoComponent},
   {path:'**',redirectTo:'home', pathMatch:'full'},
 ];
 

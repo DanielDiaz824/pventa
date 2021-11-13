@@ -38,6 +38,8 @@ import * as pdfFonts from "pdfmake/build/vfs_fonts"; // fonts provided for pdfma
 import { NgxStripeModule } from 'ngx-stripe';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MisComprasComponent } from './componentes/mis-compras/mis-compras.component';
+import { OrdenPagoComponent } from './componentes/orden-pago/orden-pago.component';
 
 // If any issue using previous fonts import. you can try this:
 // import pdfFonts from "pdfmake/build/vfs_fonts";
@@ -61,7 +63,9 @@ PdfMakeWrapper.setFonts(pdfFonts);
     OlvidoContraComponent,
     ListadoclientesComponent,
     CrearclienteComponent,
-    CrearCotizacionComponent
+    CrearCotizacionComponent,
+    MisComprasComponent,
+    OrdenPagoComponent
   ],
   imports: [
     BrowserModule,
