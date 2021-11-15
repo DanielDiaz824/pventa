@@ -13,10 +13,10 @@
     <div>
         <h1 class="text-center">Productos</h1>
         <div class="card-body row row-cols-2" *ngIf="producto.length>0" style="display: flex;">
-            <div class="card-body" *ngFor="let productos of producto " style="border-style: solid;">
+            <div class="card-body" *ngFor="let productos of producto " style="border-style: solid; text-align: center; border: 2px solid gray; border-radius: 10px; background:white">
                 <span *ngIf="0>=productos.existentes" style="color: red;">Producto Agotado</span>
                 <h1>{{productos.nombre}}</h1>
-                <img src="{{productos.foto}} " alt=" " style="max-width: 40%; display: block; ">
+                <img src="{{productos.foto}} " alt=" " style="max-width: 40%; display: block; margin: auto;">
                 <label>{{productos.descripcion}}</label>
                 <label> {{productos.preciounitario | currency}}</label>
                 <label> Uds: {{productos.existentes}}</label>

@@ -26,11 +26,11 @@ export class AuthGuard implements CanActivate {
           this.router.navigate(['/verification-email']);
           return false;
         }
-        alert('Bienvenido Usuario Promedio, te quiero mucho <3')
+        //alert('Bienvenido Usuario Promedio');
         const userInf: any = user;
         console.log(userInf.uid);
         if(userInf.uid!=='a0kDjOVej7TvdvuHKP7y6sUFyQG3'){
-          alert('espera... TU NO ERES EL ADMIN!!, SAQUESE ALV >:C')
+          alert('No es admin');
           this.router.navigate(['/home']);
           return false;
         }

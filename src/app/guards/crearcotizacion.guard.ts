@@ -16,7 +16,7 @@ export class CrearcotizacionGuard implements CanActivate {
       return this.authSvc.afAuth.user.pipe(
         map(user=>{
           if(!user){
-            alert('USTED NO ESTÁ LOGUEADO! >:C')
+            alert('No logueado');
             this.router.navigate(['/home']);
             return false;
           }
@@ -25,11 +25,11 @@ export class CrearcotizacionGuard implements CanActivate {
             this.router.navigate(['/verification-email']);
             return false;
           }
-          alert('Bienvenido Usuario Promedio, te quiero mucho <3')
+          //alert('Bienvenido Usuario Promedio')
           const userInf: any = user;
           console.log(userInf.uid);
           if(userInf.uid!=='a0kDjOVej7TvdvuHKP7y6sUFyQG3'){
-            alert('espera... TU NO ERES EL ADMIN!!, SAQUESE ALV >:C')
+            alert('No es admin');
             this.router.navigate(['/home']);
             return false;
           }

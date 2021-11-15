@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class EditclienteGuard implements CanActivate {
+export class MiscomprasGuard implements CanActivate {
   constructor(private authSvc:AuthService, private router: Router){}
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -24,11 +24,11 @@ export class EditclienteGuard implements CanActivate {
             this.router.navigate(['/verification-email']);
             return false;
           }
-          //alert('Bienvenido Usuario Promedio')
+          //alert('Bienvenido Usuario Promedio');
           const userInf: any = user;
           console.log(userInf.uid);
-          if(userInf.uid!=='a0kDjOVej7TvdvuHKP7y6sUFyQG3'){
-            alert('No es admin');
+          if(userInf.uid=='a0kDjOVej7TvdvuHKP7y6sUFyQG3'){
+            alert('Admin no puede estar aqui')
             this.router.navigate(['/home']);
             return false;
           }

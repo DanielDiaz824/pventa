@@ -39,21 +39,25 @@ export class CreateaccountComponent implements OnInit {
         this.toastr.error('La contraseña no cumple con el minimo de caracteres.', '¡Ha ocurrido un error!',{
           positionClass:'toast-bottom-right'
         });
-      }else{
+        return;
+      }
       const user = await this.authSvc.register(email,password);
-      if(user!==null && user!==undefined && this.registerForm.invalid!==true){
-        this.toastr.info('Verifica tu cuenta para continuar.', 'Completa tu registro',{
+      console.log(user);
+      console.log(user.toString().indexOf('FirebaseError:'));
+      if(user!==null && user.toString().indexOf('FirebaseError:')==-1){
+        this.authSvc.sendVerificationEmail();
+        this.toastr.info('Verifica tu bandeja de correos para continuar.', 'Completa tu registro',{
           positionClass:'toast-bottom-right'
         });
         this.router.navigate(['/verification-email']);
         //aqui
       }
       else{
+        console.log('Error');
         this.toastr.error('Verifica los datos o prueba con otro correo e intentalo denuevo.', '¡Ha ocurrido un error!',{
           positionClass:'toast-bottom-right'
         });
       }
-    }
   }
     catch(error){
       this.toastr.error('Verifica los datos o prueba con otro correo e intentalo denuevo.', '¡Ha ocurrido un error!',{

@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class EditclienteGuard implements CanActivate {
+export class OrdenPagoGuard implements CanActivate {
   constructor(private authSvc:AuthService, private router: Router){}
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -15,7 +15,7 @@ export class EditclienteGuard implements CanActivate {
       return this.authSvc.afAuth.user.pipe(
         map(user=>{
           if(!user){
-            alert('No logueado')
+            alert('No logueado');
             this.router.navigate(['/home']);
             return false;
           }
@@ -24,7 +24,7 @@ export class EditclienteGuard implements CanActivate {
             this.router.navigate(['/verification-email']);
             return false;
           }
-          //alert('Bienvenido Usuario Promedio')
+          //alert('Bienvenido Usuario Promedio');
           const userInf: any = user;
           console.log(userInf.uid);
           if(userInf.uid!=='a0kDjOVej7TvdvuHKP7y6sUFyQG3'){
@@ -36,5 +36,6 @@ export class EditclienteGuard implements CanActivate {
         })
       );
   }
+  
   
 }

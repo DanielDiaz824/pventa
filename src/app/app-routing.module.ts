@@ -25,11 +25,13 @@ import { CrearCotizacionComponent } from './componentes/crear-cotizacion/crear-c
 import { CrearcotizacionGuard } from './guards/crearcotizacion.guard';
 import { MisComprasComponent } from './componentes/mis-compras/mis-compras.component';
 import { OrdenPagoComponent } from './componentes/orden-pago/orden-pago.component';
+import { MiscomprasGuard } from './guards/miscompras.guard';
+import { OrdenPagoGuard } from './guards/orden-pago.guard';
 
 
 const routes: Routes = [
   {path:'',redirectTo:'home', pathMatch:'full'},
-{path:'car',component:CarComponent/*,canActivate:[CarGuard]*/},
+{path:'car',component:CarComponent,canActivate:[CarGuard]},
   {path:'createaccount',component:CreateaccountComponent, canActivate:[CreateaccountGuard]},
   {path:'home',component:HomeComponent},
   {path:'inicio',component:InicioComponent},
@@ -45,8 +47,8 @@ const routes: Routes = [
   {path:'crearcliente',component:CrearclienteComponent, canActivate:[CrearclienteGuard]},
   {path:'editcliente/:id',component:CrearclienteComponent, canActivate:[EditclienteGuard]},
   {path:'crear-cotizacion',component:CrearCotizacionComponent, canActivate:[CrearcotizacionGuard]},
-  {path:'mis-compras',component:MisComprasComponent},
-  {path:'orden-pago',component:OrdenPagoComponent},
+  {path:'mis-compras',component:MisComprasComponent, canActivate:[MiscomprasGuard]},
+  {path:'orden-pago',component:OrdenPagoComponent, canActivate:[OrdenPagoGuard]},
   {path:'**',redirectTo:'home', pathMatch:'full'},
 ];
 
