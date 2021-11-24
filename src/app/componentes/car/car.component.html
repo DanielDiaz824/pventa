@@ -82,7 +82,7 @@ margin: auto;">
 
         <div class="modal-footer">
             <span *ngIf="submitted && createPay.invalid" style="color: red; display: block; margin: auto;">TODOS LOS CAMPOS SON OBLIGATORIOS</span>
-            <h5 style="margin auto; font-size:small;" class="modal-title">A continuacion rellene los siguientes datos, mismos que serán usados para la comunicacion y/o entrega de su compra.</h5>
+            <h5 style="margin: auto; font-size:small;" class="modal-title">A continuacion rellene los siguientes datos, mismos que serán usados para la comunicacion y/o entrega de su compra.</h5>
             <form class="mt-4" [formGroup]="createPay" (ngSubmit)="modal.close(1)">
                 <label for="nombre">Nombre Completo</label>
                 <input type="text" class="form-control form-control-lg mt-1" formControlName="nombre" placeholder="Nombre">
